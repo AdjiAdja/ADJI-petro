@@ -6,7 +6,7 @@ Situs statis tanpa build step.
 - `index.html` – markup
 - `style.css` – gaya
 - `app.js` – hero panah piksel, marquee, manifesto (halftone + voxel 3D), PCB 3D, arcade, lab, filter dan halaman detail proyek
-- `assets/` – logo, header, og.png
+- `assets/` – logo, header, og.png, hands.jpg (latar Filosofi), dan tangkapan layar proyek
 
 ## Pasang di GitHub Pages
 1. Buat repo, unggah semua isi folder ini.

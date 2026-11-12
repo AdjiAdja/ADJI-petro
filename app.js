@@ -30,12 +30,15 @@ const one=n.map((k,i)=>(i%4==0?'<span class="it"><img src="'+L+'" alt=""></span>
 
 /* data proyek + halaman detail (routing lewat #p-nama) */
 const P=[
-{id:'p-rack',k:'IoT',t:'Rack Environment Monitoring',a:'Suhu rack dicek manual, sehingga kenaikan suhu sering baru diketahui setelah terlambat.',b:'Satu node ESP8266 per rack membaca suhu dan kelembapan, lalu mengirim data lewat MQTT. Skrip Python menerima data itu dan mengirim alert ke Telegram saat ambang terlewati.',tg:['ESP8266','DHT22','MQTT','Python'],f:['DHT22','ESP8266','MQTT','Python','Telegram'],s:[['Perangkat','Node ESP8266, satu per rack'],['Sensor','DHT22 (suhu, kelembapan)'],['Transport','MQTT lewat WiFi'],['Notifikasi','Bot Telegram']]},
+{id:'p-rack',k:'IoT',im:'assets/datacenter.jpg',t:'Rack Environment Monitoring',a:'Suhu rack dicek manual, sehingga kenaikan suhu sering baru diketahui setelah terlambat.',b:'Satu node ESP8266 per rack membaca suhu dan kelembapan, lalu mengirim data lewat MQTT. Skrip Python menerima data itu dan mengirim alert ke Telegram saat ambang terlewati.',tg:['ESP8266','DHT22','MQTT','Python'],f:['DHT22','ESP8266','MQTT','Python','Telegram'],s:[['Perangkat','Node ESP8266, satu per rack'],['Sensor','DHT22 (suhu, kelembapan)'],['Transport','MQTT lewat WiFi'],['Notifikasi','Bot Telegram']]},
 {id:'p-power',k:'IoT',t:'3-Phase Power Monitoring',a:'Tidak ada tampilan langsung untuk beban listrik tiga fase.',b:'Tiga modul PZEM-004T dibaca lewat Modbus RTU oleh gateway ESP32, lalu datanya dikirim ke dashboard.',tg:['ESP32','PZEM-004T','Modbus RTU'],f:['PZEM x3','Modbus RTU','ESP32','Broker','Dashboard'],s:[['Pengukuran','Tegangan, arus, daya per fase'],['Sensor','PZEM-004T'],['Protokol lapangan','Modbus RTU'],['Gateway','ESP32']]},
 {id:'p-arcade',k:'Embedded',t:'ESP Arcade',a:'Membuat game utuh di layar kecil dengan satu tombol.',b:'Empat game retro berjalan di ESP32-C3 dengan OLED SSD1306. Game loop, sprite, dan tabrakan ditulis sendiri dalam C++.',tg:['ESP32-C3','SSD1306','C++'],f:['Tombol','ESP32-C3','Game loop','OLED'],s:[['Mikrokontroler','ESP32-C3'],['Layar','OLED SSD1306'],['Input','Satu tombol'],['Bahasa','C++']]},
-{id:'p-dcim',k:'Web',t:'DCIM Web Application',a:'Data rak, perangkat, dan kapasitas tersebar di banyak file terpisah.',b:'Aplikasi full-stack yang mengumpulkan semuanya di satu tempat, dibungkus Docker agar mudah dipasang.',tg:['Full-stack','Docker'],f:['Browser','API','Database','Docker'],s:[['Cakupan','Rak, perangkat, kapasitas'],['Arsitektur','Full-stack web'],['Deployment','Container Docker']]}];
+{id:'p-dcim',k:'Web',t:'DCIM Web Application',a:'Data rak, perangkat, dan kapasitas tersebar di banyak file terpisah.',b:'Aplikasi full-stack yang mengumpulkan semuanya di satu tempat, dibungkus Docker agar mudah dipasang.',tg:['Full-stack','Docker'],f:['Browser','API','Database','Docker'],s:[['Cakupan','Rak, perangkat, kapasitas'],['Arsitektur','Full-stack web'],['Deployment','Container Docker']]},
+{id:'p-aqua',k:'IoT',im:'assets/aquaculture.jpg',t:'Digital Twin Aquaculture',a:'Kondisi kolam ikan air tawar sering dicek manual, padahal suhu, pH, dan oksigen terlarut bisa berubah dalam hitungan jam.',b:'Digital twin 3D untuk empat kolam terpal bulat (lele, nila, gurame, patin). Tiap kolam menampilkan suhu, pH, oksigen terlarut, amonia, dan kekeruhan dengan indikator status, lalu memberi rekomendasi setting dan kalkulator tebar. Saat ini masih prototipe dengan data simulasi.',tg:['Digital twin','3D','Prototipe'],f:['Sensor kolam','Data simulasi','Digital twin 3D','Rekomendasi'],s:[['Kolam','4 kolam terpal bulat'],['Spesies','Lele, nila, gurame, patin'],['Parameter','Suhu, pH, DO, amonia, kekeruhan'],['Status','Prototipe, data simulasi']]},
+{id:'p-aero',k:'IoT',im:'assets/aerotwin.jpg',t:'AeroTwin HVAC Digital Twin',a:'Kondisi AC sulit dibaca dari luar: efisiensi, getaran kompresor, dan kebersihan filter baru terasa setelah ada masalah.',b:'Antarmuka digital twin 3D untuk beberapa tipe HVAC (wall split, 4-way cassette, CRAC data center, VRF duct). Telemetri dari node ESP32 lewat MQTT tampil sebagai termodinamika evaporator, arus dan daya, getaran, serta status filter, lengkap dengan mode X-ray dan partikel aliran udara.',tg:['ESP32','MQTT','3D','HVAC'],f:['Sensor','ESP32','MQTT','Digital twin 3D'],s:[['Tipe unit','Wall split, 4-way cassette, CRAC, VRF duct'],['Telemetri','Suhu, arus dan daya, getaran, filter'],['Transport','MQTT'],['Node','ESP32']]},
+{id:'p-nexa',k:'Web',im:'assets/nexavault.jpg',t:'NexaVault Landing Page',a:'Produk DeFi yang rumit perlu halaman yang menjelaskan nilai dan angka kuncinya dalam hitungan detik.',b:'Landing page gelap berbahasa Indonesia untuk protokol DeFi: hero dengan ilustrasi isometrik, statistik TVL dan uptime, harga pasar langsung, serta bagian simulator dan aktivitas.',tg:['Landing page','UI/UX','Dark UI'],f:['Hero','Statistik','Pasar langsung','Simulator'],s:[['Jenis','Landing page'],['Bahasa','Indonesia'],['Bagian','Pasar, Fitur, Dashboard, Simulator, Aktivitas'],['Tema','Gelap']]}];
 let cat='Semua';
-function rp(){$('#pj').innerHTML=P.filter(p=>cat=='Semua'||p.k==cat).map(p=>'<a class="pc" href="#'+p.id+'"><span class="no">'+String(P.indexOf(p)+1).padStart(2,'0')+' / '+p.k.toUpperCase()+'</span><h3>'+p.t+'</h3><p>'+p.a+'</p><div class="tg">'+p.tg.map(k=>'<span class="tag">'+k+'</span>').join('')+'</div><span class="go">LIHAT DETAIL ↗</span></a>').join('');rv()}
+function rp(){$('#pj').innerHTML=P.filter(p=>cat=='Semua'||p.k==cat).map(p=>'<a class="pc" href="#'+p.id+'">'+(p.im?'<img class="th" src="'+p.im+'" alt="Tangkapan layar '+p.t+'" loading="lazy">':'')+'<span class="no">'+String(P.indexOf(p)+1).padStart(2,'0')+' / '+p.k.toUpperCase()+'</span><h3>'+p.t+'</h3><p>'+p.a+'</p><div class="tg">'+p.tg.map(k=>'<span class="tag">'+k+'</span>').join('')+'</div><span class="go">LIHAT DETAIL ↗</span></a>').join('');rv()}
 $('#ch').innerHTML=['Semua','IoT','Embedded','Web'].map(k=>'<button class="chip'+(k==cat?' on':'')+'" data-k="'+k+'">'+k+'</button>').join('');
 $('#ch').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;cat=b.dataset.k;document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c==b));rp()};
 $('#pj').addEventListener('pointermove',e=>{const c=e.target.closest('.pc');if(c){const r=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-r.left+'px');c.style.setProperty('--my',e.clientY-r.top+'px')}});
@@ -45,8 +48,8 @@ function route(){const h=location.hash.slice(1),i=P.findIndex(p=>p.id==h),H=$('#
 if(i<0){H.hidden=false;D.hidden=true;const e=h&&document.getElementById(h);if(e)e.scrollIntoView();return}
 const p=P[i],nx=P[(i+1)%P.length];H.hidden=true;D.hidden=false;
 $('#db').innerHTML='<a class="back" href="#proyek">← SEMUA PROYEK</a><h1>'+p.t+'</h1><div class="tg">'+p.tg.map(k=>'<span class="tag">'+k+'</span>').join('')+'</div>'
-+'<div class="cols"><div><h3>Masalah</h3><p>'+p.a+'</p></div><div><h3>Solusi</h3><p>'+p.b+'</p></div></div><div class="flow">'+flow(p.f)+'</div>'
-+(p.r?'<div class="cols" style="margin-top:0"><div><h3>Hasil</h3><p>'+p.r+'</p></div></div>':'')+(p.im?'<img src="'+p.im+'" alt="Foto '+p.t+'" style="width:100%;border-radius:6px;margin-bottom:30px">':'')+'<div class="spec">'+p.s.map(r=>'<div><span>'+r[0]+'</span><b style="font-weight:500">'+r[1]+'</b></div>').join('')+'</div>'
++(p.im?'<img class="hero-im" src="'+p.im+'" alt="Tangkapan layar '+p.t+'">':'')+'<div class="cols"><div><h3>Masalah</h3><p>'+p.a+'</p></div><div><h3>Solusi</h3><p>'+p.b+'</p></div></div><div class="flow">'+flow(p.f)+'</div>'
++(p.r?'<div class="cols" style="margin-top:0"><div><h3>Hasil</h3><p>'+p.r+'</p></div></div>':'')+'<div class="spec">'+p.s.map(r=>'<div><span>'+r[0]+'</span><b style="font-weight:500">'+r[1]+'</b></div>').join('')+'</div>'
 +'<a class="btn w" href="#'+nx.id+'">Proyek berikutnya: '+nx.t+'</a>';scrollTo(0,0)}
 addEventListener('hashchange',route);route();
 
@@ -54,31 +57,6 @@ rv();
 /* scroll-spy navigasi */
 (()=>{const L=[...document.querySelectorAll('nav ul a')];const spy=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)L.forEach(a=>a.classList.toggle('act',a.getAttribute('href')=='#'+e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});
 L.forEach(a=>{const s=document.querySelector(a.getAttribute('href'));if(s)spy.observe(s)})})();
-/* manifesto: halftone dua tangan (ala Qintara) */
-(()=>{const s=$('#manifest'),c=$('#ht'),x=c.getContext('2d'),o=document.createElement('canvas'),ox=o.getContext('2d',{willReadFrequently:true});
-let W,H,g,cn,rw,d=1,px=-999,py=-999,t=0,vis=false,run=false;
-function fit(){d=Math.min(devicePixelRatio||1,2);W=c.clientWidth;H=c.clientHeight;c.width=W*d;c.height=H*d;g=W<700?6:9;cn=Math.ceil(W/g);rw=Math.ceil(H/g);o.width=cn;o.height=rw}
-function cap(pts,w,col){ox.lineCap=ox.lineJoin='round';ox.strokeStyle=col;ox.lineWidth=w*rw;ox.beginPath();pts.forEach((p,i)=>i?ox.lineTo(p[0]*cn,p[1]*rw):ox.moveTo(p[0]*cn,p[1]*rw));ox.stroke()}
-function joint(X,Y,r){ox.fillStyle='#d8d8d8';ox.beginPath();ox.arc(X*cn,Y*rw,r*rw,0,6.283);ox.fill();ox.fillStyle='#1c1c1c';ox.beginPath();ox.arc(X*cn,Y*rw,r*rw*.55,0,6.283);ox.fill()}
-function scene(){ox.fillStyle='#000';ox.fillRect(0,0,cn,rw);const r=Math.sin(t*.9)*.014;
-/* tangan mesin (kiri) */
-cap([[-.04,.76],[.1+r,.68]],.1,'#6c6c6c');cap([[-.04,.74],[.1+r,.66]],.035,'#cfcfcf');
-cap([[.1+r,.68],[.24+r,.59]],.075,'#8a8a8a');cap([[.1+r,.665],[.24+r,.575]],.026,'#e2e2e2');
-cap([[.24+r,.59],[.3+r,.575]],.06,'#a6a6a6');joint(.1+r,.68,.03);joint(.24+r,.59,.026);
-cap([[.3+r,.575],[.38+r,.565],[.45+r,.575]],.022,'#e8e8e8');cap([[.3+r,.59],[.37+r,.61],[.42+r,.62]],.02,'#cfcfcf');cap([[.29+r,.565],[.34+r,.52],[.39+r,.505]],.02,'#dadada');
-/* tangan manusia (kanan) */
-cap([[1.06,.98],[.92-r,.84]],.12,'#b97a5c');cap([[1.06,.955],[.92-r,.815]],.04,'#e8b896');
-cap([[.92-r,.84],[.8-r,.72]],.09,'#c98b6b');cap([[.92-r,.82],[.8-r,.70]],.03,'#f1c3a4');
-cap([[.8-r,.72],[.72-r,.67]],.07,'#d89a78');
-cap([[.72-r,.67],[.65-r,.62],[.58-r,.59]],.024,'#f1c3a4');cap([[.72-r,.69],[.66-r,.67],[.61-r,.66]],.022,'#e6ae8c');cap([[.74-r,.7],[.7-r,.75],[.65-r,.76]],.022,'#e6ae8c')}
-function frame(){if(!still)t+=.02;scene();const im=ox.getImageData(0,0,cn,rw).data;x.setTransform(d,0,0,d,0,0);x.clearRect(0,0,W,H);
-for(let j=0;j<rw;j++)for(let i=0;i<cn;i++){const k=(j*cn+i)*4,r=im[k],gg=im[k+1],b=im[k+2],l=(r*.3+gg*.59+b*.11)/255;if(l<.05)continue;
-const X=i*g+g/2,Y=j*g+g/2,dd=Math.hypot(X-px,Y-py);let rad=l*g*.52;if(dd<150)rad*=1+(1-dd/150)*.55;
-x.fillStyle='rgb('+r+','+gg+','+b+')';x.beginPath();x.arc(X,Y,rad,0,6.283);x.fill()}}
-function go(){if(run)return;run=true;(function l(){frame();if(vis&&!still)requestAnimationFrame(l);else run=false})()}
-fit();addEventListener('resize',()=>{fit();if(vis)go()});
-s.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();px=e.clientX-r.left;py=e.clientY-r.top});s.addEventListener('pointerleave',()=>{px=py=-999});
-new IntersectionObserver(e=>{vis=e[0].isIntersecting;if(vis)go()}).observe(s)})();
 /* manifesto: objek voxel bercahaya */
 try{(()=>{const R=THREE,cv=$('#vx'),s=$('#manifest'),sc=new R.Scene(),cam=new R.PerspectiveCamera(34,1,.1,60),rd=new R.WebGLRenderer({canvas:cv,antialias:true,alpha:true}),grp=new R.Group(),pal=[0x5b3df5,0x8a4dff,0xd05cff,0xff7a59,0xffb36b],ms=[];
 cam.position.set(0,0,14);sc.add(grp);
